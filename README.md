@@ -1,18 +1,17 @@
 # PosteMobile Casa Web - Convertitore fattura da p7m a pdf
-
-Semplice software per convertire il file .p7m ed estrarre il pdf allegato.
+### Semplice software per convertire il file .p7m ed estrarre il pdf allegato.
 
 Scritto in Java 11, compatibile con Linux.
 
-### Requisiti
+## Requisiti
 
 Openssl aggiornato
 
-### Build
+## Build
 
 `./gradlew clean build -x test`
 
-### Run
+## Run
 
 Eseguire sul terminale:
 
@@ -21,7 +20,7 @@ Eseguire sul terminale:
 Il primo file è il file .p7m in allegato alla mail, il secondo sarà un file xml di appoggio, il nostro p7m convertito.
 Il terzo file sarà la destinazione del pdf allegato al p7m, la nostra fattura.
 
-### Licence
+## Licence
 
 	P7mxmlconverter
 

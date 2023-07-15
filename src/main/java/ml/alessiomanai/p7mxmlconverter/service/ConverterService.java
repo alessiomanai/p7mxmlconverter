@@ -13,7 +13,6 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
-
 import org.springframework.stereotype.Service;
 import org.w3c.dom.Document;
 import org.xml.sax.InputSource;
@@ -24,8 +23,8 @@ import lombok.extern.log4j.Log4j2;
 @Log4j2
 @Service
 public class ConverterService {
-    
-    public void convertP7m(String inputFile, String tempFile) throws IOException, InterruptedException{
+
+    public void convertP7m(String inputFile, String tempFile) throws IOException, InterruptedException {
 
         String commandString = "openssl smime -verify -noverify -in " + inputFile + " -inform DER -out " + tempFile;
 
@@ -33,15 +32,15 @@ public class ConverterService {
 
         log.info("Corventing file " + inputFile + " to " + tempFile);
 
-		ProcessBuilder processBuilder = new ProcessBuilder();
-		processBuilder.command("bash", "-c", commandString);
+        ProcessBuilder processBuilder = new ProcessBuilder();
+        processBuilder.command("bash", "-c", commandString);
 
         Process process = processBuilder.start();
 
         process.waitFor();
     }
 
-    public String returnAttachment(String tempFile) throws SAXException, IOException, ParserConfigurationException{
+    public String returnAttachment(String tempFile) throws SAXException, IOException, ParserConfigurationException {
 
         log.info("Reading file " + tempFile);
 
@@ -58,7 +57,7 @@ public class ConverterService {
 
     }
 
-    private InputStream getFileFromResourceAsStream(String fileName) throws FileNotFoundException  {
+    private InputStream getFileFromResourceAsStream(String fileName) throws FileNotFoundException {
 
         InputStream inputStream = new FileInputStream(fileName);
 
@@ -66,12 +65,12 @@ public class ConverterService {
 
     }
 
-	private StringBuilder printInputStream(InputStream is) {
+    private StringBuilder printInputStream(InputStream is) {
 
-		StringBuilder output = new StringBuilder();
+        StringBuilder output = new StringBuilder();
 
         try (InputStreamReader streamReader = new InputStreamReader(is, StandardCharsets.UTF_8);
-             BufferedReader reader = new BufferedReader(streamReader)) {
+                BufferedReader reader = new BufferedReader(streamReader)) {
 
             String line;
             while ((line = reader.readLine()) != null) {
@@ -81,8 +80,8 @@ public class ConverterService {
         } catch (IOException e) {
             e.printStackTrace();
         }
-	
-		return output;
-	}
+
+        return output;
+    }
 
 }

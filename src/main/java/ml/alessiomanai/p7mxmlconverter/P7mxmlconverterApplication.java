@@ -36,12 +36,6 @@ public class P7mxmlconverterApplication implements CommandLineRunner {
 			throw new RuntimeException(argsNotFound);
 		}
 
-		boolean isWindows = System.getProperty("os.name").toLowerCase().startsWith("windows");
-
-		if(isWindows){
-			throw new Exception("Not compatible with windows");
-		}
-
 		converterService.convertP7m(args[0], args[1]);
 
 		String attachment = converterService.returnAttachment(args[1]);

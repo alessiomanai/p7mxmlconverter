@@ -3,6 +3,7 @@ package ml.alessiomanai.p7mxmlconverter.service;
 import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -13,10 +14,13 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
+import org.bouncycastle.cms.CMSException;
+import org.bouncycastle.cms.CMSSignedData;
 import org.springframework.stereotype.Service;
 import org.w3c.dom.Document;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
+
 
 import lombok.extern.log4j.Log4j2;
 
@@ -24,20 +28,18 @@ import lombok.extern.log4j.Log4j2;
 @Service
 public class ConverterService {
 
-    public void convertP7m(String inputFile, String tempFile) throws IOException, InterruptedException {
+    public void convertP7m(String inputFile, String tempFile) throws CMSException, IOException  {
 
-        String commandString = "openssl smime -verify -noverify -in " + inputFile + " -inform DER -out " + tempFile;
+        InputStream is = getFileFromResourceAsStream(inputFile);
 
-        getFileFromResourceAsStream(inputFile);
+        CMSSignedData cms = new CMSSignedData(is); 
+
+        FileOutputStream fos = new FileOutputStream(tempFile);
+
+        cms.getSignedContent().write(fos);
 
         log.info("Corventing file " + inputFile + " to " + tempFile);
 
-        ProcessBuilder processBuilder = new ProcessBuilder();
-        processBuilder.command("bash", "-c", commandString);
-
-        Process process = processBuilder.start();
-
-        process.waitFor();
     }
 
     public String returnAttachment(String tempFile) throws SAXException, IOException, ParserConfigurationException {
